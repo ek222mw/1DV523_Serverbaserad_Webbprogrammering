@@ -1,0 +1,40 @@
+{
+  "name": "examination2",
+  "version": "1.0.0",
+  "description": "repo for examination2, working with mongodb and vagrant",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1dv523/ek222mw-examination-2.git"
+  },
+  "keywords": [
+    "mongoDB",
+    "vagrant",
+    "node.js"
+  ],
+  "author": "Emil Karlsson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1dv523/ek222mw-examination-2/issues"
+  },
+  "homepage": "https://github.com/1dv523/ek222mw-examination-2#readme",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.14.2",
+    "fs-promise": "^1.0.0",
+    "helmet": "^3.1.0",
+    "https": "^1.0.0",
+    "mongoose": "^4.7.0",
+    "mongoose-auto-increment": "^5.0.1",
+    "path": "^0.12.7"
+  }
+}

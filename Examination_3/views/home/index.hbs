@@ -1,0 +1,25 @@
+
+
+<span class="left">
+<h2 class="headerlist">All issues</h2>
+
+<ul id="cont" class="list"></ul>
+<ul class="list">
+  {{#each issues}}
+    <li class="cont" id="li{{number}}" >Title: {{ title }}<br>
+     <span class="desc">Description: {{desc}}</span><br>
+     <a href="{{link}}">{{link}}</a><br>
+     <div id="{{id}}">Comments: {{commentsCount}}</div>
+     Created at: {{dateCreated}}<br>
+     Updated at: {{dateUpdated}}<br>
+     <span>New comments:<div id="status{{number}}" class="commentstyle">1</div></span>
+     <span>Edited comments:<div id="statusedit{{number}}" class="commentstyleedit">1</div></span>
+     <span>Deleted comments:<div id="statusdelete{{number}}" class="commentstyledelete">1</div></span>
+    <span id='comment{{number}}' class="span"></span>
+    <span id='commentedit{{number}}' class="span"></span>
+  <span id='commentdelete{{number}}' class="span"></span></li>
+  {{/each}}
+</ul>
+</span>
+<h2 class="headernotes">Notifications</h2><br>
+<ul id="messages" class="notes"></ul><br>

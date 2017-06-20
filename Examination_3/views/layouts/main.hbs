@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Assignment3 - Github issues</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+</head>
+<body class="theme">
+  {{> flash }}
+  {{{ body }}}
+
+  <script src='/socket.io/socket.io.js'></script>
+
+  <script>
+      // Auto discovery of the websocket server
+      var socket = io();
+
+      socket.on('issue',function(data)
+      {
+        addMessage("New notification! Action: "+data.action+', Title: '+data.title+ ' User: '+data.user);
+      });
+
+      socket.on('issuelist', function(data)
+      {
+
+        addIssueItem("Title: "+data.title+ "<br>" +"<span class='"+"desc"+"'"+">Description: "+data.body+"</span><br>"+"<a href='"+data.link+"'"+">"+data.link+"</a>"+"<br>" + "<div id='"+data.id+"'"+">Comments: "+data.commentsCount+"</div>"+
+         "Created at: "+data.dateCreated+"<br>"+" Updated at: "+data.dateUpdated+"<br>"+"<span>New comments:<div id='"+"status"+data.number+"'"+"class='"+"commentstyle"+"'"+">1</div></span>"+
+         "<span> Edited comments:<div id='"+"statusedit"+data.number+"'"+"class='"+"commentstyleedit"+"'"+">1</div></span>"+
+         "<span> Deleted comments:<div id='"+"statusdelete"+data.number+"'"+"class='"+"commentstyledelete"+"'"+">1</div></span>"+
+         "<span id='"+"comment"+data.number+"'"+"class='"+"span"+"'"+"></span>"+
+         "<span id='"+"commentedit"+data.number+"'"+"class='"+"span"+"'"+"></span>"+
+         "<span id='"+"commentdelete"+data.number+"'"+"class='"+"span"+"'"+"></span></li>", data.number);
+      });
+
+      socket.on('issueremove', function(data)
+      {
+        removeIssueItem(data.number);
+      });
+
+      socket.on('issue_comment', function(data)
+      {
+
+        if(data.action === 'created')
+        {
+          addMessage("New notification! Action: New comment"+', Title: '+data.title+ ' User: '+data.user);
+          handleCommentNotes("", data.number, data.id, data.commentCount, data.action);
+        }
+        else if(data.action === 'edited')
+        {
+          addMessage("New notification! Action: Edited comment"+', Title: '+data.title+ ' User: '+data.user);
+          handleCommentNotes("", data.number, data.id, data.commentCount, data.action);
+        }
+        else if(data.action === 'deleted')
+        {
+          addMessage("New notification! Action: Deleted comment"+', Title: '+data.title+ ' User: '+data.user);
+          handleCommentNotes("", data.number, data.id, data.commentCount, data.action);
+        }
+        else
+        {
+          addMessage("New notification! Action: "+data.action+', Title: '+data.title+ ' User: '+data.user);
+        }
+      });
+      /**
+       * Function for adding messages to the DOM
+       */
+      function addMessage(message) {
+          var text = document.createTextNode(message),
+              el = document.createElement('li'),
+              messages = document.getElementById('messages');
+          el.appendChild(text);
+          messages.appendChild(el);
+      }
+      function removeIssueItem(number)
+      {
+            var li = document.getElementById("li"+number);
+            li.parentNode.removeChild(li);
+      }
+      function addIssueItem(message, number) {
+
+          var text = document.createElement('li');
+          text.setAttribute("id", "li"+number);
+
+          var issues = document.getElementById('cont');
+
+          text.setAttribute("class","cont");
+          text.innerHTML = message;
+          issues.insertBefore(text, issues.childNodes[0]);
+
+      }
+      function handleCommentNotes(message, number, id,commentCount, action) {
+
+          if (action === 'created')
+          {
+            var comment = document.getElementById(id);
+            var correctCount = commentCount +1;
+            comment.innerHTML = "Comments: "+correctCount;
+            handleOutputComments("status","comment", number,message);
+          }
+          else if(action === 'edited')
+          {
+            handleOutputComments("statusedit","commentedit", number,message)
+          }
+          else if(action === 'deleted')
+          {
+            var comment = document.getElementById(id);
+            var correctCount = commentCount -1;
+            comment.innerHTML = "Comments: "+correctCount;
+            handleOutputComments("statusdelete","commentdelete", number,message)
+          }
+
+      }
+
+      function handleOutputComments(status,comment, number,message)
+      {
+        document.getElementById(status+number).style.visibility='visible';
+
+        if(document.getElementById(comment+number).innerHTML === 'true')
+        {
+          var filtered = document.getElementById(status+number).innerHTML.replace(/\D/g, '');
+          document.getElementById(status+number).innerHTML = message+(parseInt(filtered)+1)
+        }
+        else{
+          document.getElementById(comment+number).innerHTML = 'true';
+        }
+      }
+  </script>
+
+</body>
+</html>

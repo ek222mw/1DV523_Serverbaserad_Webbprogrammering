@@ -1,0 +1,7 @@
+<h2>All snippets</h2>
+
+<ul >
+  {{#each items}}
+    <li class="cont">{{ text }} - Created: {{ dateCreated }} <a href="item/delete/{{id}}">Remove</a> <a href="item/update/{{id}}">Update</a></li>
+  {{/each}}
+</ul>
